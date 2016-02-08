@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     EditText editText;
     ArrayAdapter adapter;
-    int number1 = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,23 +33,25 @@ public class MainActivity extends AppCompatActivity {
                 ListView listView = (ListView) parent;
                 ArrayAdapter adapter = (ArrayAdapter) listView.getAdapter();
 
-                if(number1==position){
-                    String item = (String)adapter.getItem(position);
-                    adapter.remove(item);
+                // put　process in order
+                String item = (String) adapter.getItem(position);
+                adapter.remove(item);
 
-                }else {
-                    String item = (String)adapter.getItem(position);
-                    adapter.remove(item);
+                //get ListView Lines
+                int countNumber = listView.getCount();
+                if (countNumber == position) {
+                    //goTo TopColumm(0)
+                    adapter.insert(item,0);
+                } else {
                     adapter.insert(item,position+1);
                 }
-
             }
         });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = (String)adapter.getItem(position);
+                String item = (String) adapter.getItem(position);
                 adapter.remove(item);
 
                 Toast.makeText(getApplicationContext(), "削除しました", Toast.LENGTH_SHORT).show();
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             String text = editText.getText().toString();
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 
-            number1++;
             editText.setText("");
 
             adapter.add(text);
